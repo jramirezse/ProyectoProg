@@ -1,1 +1,0 @@
-Estoy aprendiendo a trabajar con ramas de Git.
