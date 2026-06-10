@@ -8,24 +8,25 @@
 #include "Inventario.h"
 #include <vector>
 #include <string>
+using namespace std;
 
 class GestorProductos {
 private:
-    std::vector<Producto> productos;
+    vector<Producto> productos;
     Inventario            inventario;
-    std::string           archivoProductos;
-    std::string           archivoInventario;
+    string                archivoProductos;
+    string                archivoInventario;
 
     // Auxiliares internos
     int         buscarIndicePorId(int id) const; // Retorna índice o -1
     bool        existeId(int id)          const;
-    int         leerEnteroValido(const std::string& msg) const;
-    double      leerDoubleValido(const std::string& msg) const;
-    std::string leerLineaNoVacia(const std::string& msg) const;
+    int         leerEnteroValido(const string& msg) const;
+    double      leerDoubleValido(const string& msg) const;
+    std::string leerLineaNoVacia(const string& msg) const;
 
 public:
-    GestorProductos(const std::string& archProd = "data/productos.csv",
-                    const std::string& archInv  = "data/inventario.csv");
+    GestorProductos(const string& archProd = "data/productos.csv",
+                    const string& archInv  = "data/inventario.csv");
 
     // Punto de entrada: llama a este método desde main()
     void menuPrincipal();

@@ -6,37 +6,37 @@
 #include <sstream>
 #include <stdexcept>
 #include <iomanip>
-
+using namespace std;
 Inventario::Inventario() {}
 
 void Inventario::registrarStock(int idProducto, int cantInicial) {
     if (cantInicial < 0)
-        throw std::invalid_argument("La cantidad inicial no puede ser negativa.");
+        throw invalid_argument("La cantidad inicial no puede ser negativa.");
     if (stocks.count(idProducto) > 0)
-        throw std::logic_error("El producto ID " + std::to_string(idProducto) +
+        throw logic_error("El producto ID " + std::to_string(idProducto) +
                                " ya tiene stock. Use 'Aumentar Stock'.");
     stocks[idProducto] = cantInicial;
 }
 
 void Inventario::aumentarStock(int idProducto, int cantidad) {
     if (cantidad <= 0)
-        throw std::invalid_argument("La cantidad debe ser mayor que cero.");
+        throw invalid_argument("La cantidad debe ser mayor que cero.");
     if (stocks.count(idProducto) == 0)
-        throw std::out_of_range("Producto ID " + std::to_string(idProducto) +
+        throw out_of_range("Producto ID " + to_string(idProducto) +
                                 " no registrado en inventario.");
     stocks[idProducto] += cantidad;
 }
 
 void Inventario::disminuirStock(int idProducto, int cantidad) {
     if (cantidad <= 0)
-        throw std::invalid_argument("La cantidad debe ser mayor que cero.");
+        throw invalid_argument("La cantidad debe ser mayor que cero.");
     if (stocks.count(idProducto) == 0)
-        throw std::out_of_range("Producto ID " + std::to_string(idProducto) +
+        throw out_of_range("Producto ID " + std::to_string(idProducto) +
                                 " no registrado en inventario.");
     if (stocks[idProducto] < cantidad)
-        throw std::underflow_error(
+        throw underflow_error(
             "Stock insuficiente. Disponible: " +
-            std::to_string(stocks.at(idProducto)) +
+            to_string(stocks.at(idProducto)) +
             ", Solicitado: " + std::to_string(cantidad));
     stocks[idProducto] -= cantidad;
 }
@@ -44,8 +44,8 @@ void Inventario::disminuirStock(int idProducto, int cantidad) {
 int Inventario::consultarStock(int idProducto) const {
     try {
         return stocks.at(idProducto);
-    } catch (const std::out_of_range&) {
-        throw std::out_of_range("Producto ID " + std::to_string(idProducto) +
+    } catch (const out_of_range&) {
+        throw out_of_range("Producto ID " + to_string(idProducto) +
                                 " no registrado en inventario.");
     }
 }
@@ -56,64 +56,64 @@ bool Inventario::existeEnInventario(int idProducto) const {
 
 void Inventario::mostrarInventario() const {
     if (stocks.empty()) {
-        std::cout << "  [!] El inventario esta vacio.\n";
+        cout << "  [!] El inventario esta vacio.\n";
         return;
     }
-    std::cout << "\n" << std::string(35, '-') << "\n";
-    std::cout << std::left << std::setw(15) << "  ID Producto"
-                           << std::setw(20) << "Stock Disponible" << "\n";
-    std::cout << std::string(35, '-') << "\n";
+    cout << "\n" << string(35, '-') << "\n";
+    cout << left << setw(15) << "  ID Producto"
+                           << setw(20) << "Stock Disponible" << "\n";
+    cout << string(35, '-') << "\n";
     for (const auto& par : stocks)
-        std::cout << std::left
-                  << std::setw(15) << ("  " + std::to_string(par.first))
-                  << std::setw(20) << par.second << "\n";
-    std::cout << std::string(35, '-') << "\n";
-    std::cout << "  Total: " << stocks.size() << " producto(s)\n";
+        cout << left
+                  << setw(15) << ("  " + to_string(par.first))
+                  << setw(20) << par.second << "\n";
+    cout << string(35, '-') << "\n";
+    cout << "  Total: " << stocks.size() << " producto(s)\n";
 }
 
 void Inventario::mostrarAgotados() const {
     bool hayAgotados = false;
-    std::cout << "\n" << std::string(35, '=') << "\n";
-    std::cout << "  PRODUCTOS AGOTADOS (stock = 0)\n";
-    std::cout << std::string(35, '=') << "\n";
+    cout << "\n" << string(35, '=') << "\n";
+    cout << "  PRODUCTOS AGOTADOS (stock = 0)\n";
+    cout << string(35, '=') << "\n";
     for (const auto& par : stocks) {
         if (par.second == 0) {
-            std::cout << "  > ID: " << par.first << "\n";
+            cout << "  > ID: " << par.first << "\n";
             hayAgotados = true;
         }
     }
-    if (!hayAgotados) std::cout << "  [OK] No hay productos agotados.\n";
-    std::cout << std::string(35, '=') << "\n";
+    if (!hayAgotados) cout << "  [OK] No hay productos agotados.\n";
+    cout << string(35, '=') << "\n";
 }
 
-void Inventario::guardarInventario(const std::string& nombreArchivo) const {
-    std::ofstream archivo(nombreArchivo);
+void Inventario::guardarInventario(const string& nombreArchivo) const {
+    ofstream archivo(nombreArchivo);
     if (!archivo.is_open())
-        throw std::runtime_error("No se pudo abrir para escritura: " + nombreArchivo);
+        throw runtime_error("No se pudo abrir para escritura: " + nombreArchivo);
     archivo << "idProducto,stock\n";
     for (const auto& par : stocks)
         archivo << par.first << "," << par.second << "\n";
     archivo.close();
 }
 
-void Inventario::cargarInventario(const std::string& nombreArchivo) {
-    std::ifstream archivo(nombreArchivo);
+void Inventario::cargarInventario(const string& nombreArchivo) {
+    ifstream archivo(nombreArchivo);
     if (!archivo.is_open())
-        throw std::runtime_error("No se pudo abrir para lectura: " + nombreArchivo);
+        throw runtime_error("No se pudo abrir para lectura: " + nombreArchivo);
     stocks.clear();
-    std::string linea;
-    std::getline(archivo, linea);
+    string linea;
+    getline(archivo, linea);
     int numLinea = 2;
-    while (std::getline(archivo, linea)) {
+    while (getline(archivo, linea)) {
         if (linea.empty()) { numLinea++; continue; }
-        std::stringstream ss(linea);
-        std::string campo;
+        stringstream ss(linea);
+        string campo;
         try {
-            std::getline(ss, campo, ','); int id    = std::stoi(campo);
-            std::getline(ss, campo);      int stock = std::stoi(campo);
+            getline(ss, campo, ','); int id    = stoi(campo);
+            getline(ss, campo);      int stock = stoi(campo);
             stocks[id] = stock;
-        } catch (const std::exception& e) {
-            std::cerr << "  [ADVERTENCIA] Linea " << numLinea << ": " << e.what() << "\n";
+        } catch (const exception& e) {
+            cerr << "  [ADVERTENCIA] Linea " << numLinea << ": " << e.what() << "\n";
         }
         numLinea++;
     }
@@ -124,6 +124,6 @@ bool Inventario::hayStockSuficiente(int idProducto, int cantidad) const {
     return stocks.at(idProducto) >= cantidad;
 }
 
-const std::map<int, int>& Inventario::getStocks() const {
+const map<int, int>& Inventario::getStocks() const {
     return stocks;
 }

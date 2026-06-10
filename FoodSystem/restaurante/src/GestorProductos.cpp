@@ -8,7 +8,8 @@
 #include <iomanip>
 #include <limits>
 #include <algorithm>
-
+#include <windows.h> 
+using namespace std;
 GestorProductos::GestorProductos(const std::string& archProd,
                                   const std::string& archInv)
     : archivoProductos(archProd), archivoInventario(archInv)
@@ -70,6 +71,7 @@ std::string GestorProductos::leerLineaNoVacia(const std::string& msg) const {
 // ── Menús ────────────────────────────────────────────────────
 
 void GestorProductos::menuPrincipal() {
+    SetConsoleOutputCP(65001);
     int opcion;
     do {
         #ifdef _WIN32

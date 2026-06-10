@@ -5,10 +5,11 @@
 
 #include <map>
 #include <string>
+using namespace std;
 
 class Inventario {
 private:
-    std::map<int, int> stocks; // clave: idProducto, valor: unidades disponibles
+    map<int, int> stocks; // clave: idProducto, valor: unidades disponibles
 
 public:
     Inventario();
