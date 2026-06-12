@@ -5,33 +5,30 @@
 
 #include <map>
 #include <string>
-using namespace std;
 
 class Inventario {
 private:
-    map<int, int> stocks; // clave: idProducto, valor: unidades disponibles
+    std::map<int, int> stocks;
 
 public:
     Inventario();
 
-    // Gestión de stock
-    void registrarStock(int idProducto, int cantInicial); // Alta inicial
-    void aumentarStock (int idProducto, int cantidad);    // Sumar unidades
-    void disminuirStock(int idProducto, int cantidad);    // Restar unidades
-    int  consultarStock(int idProducto) const;            // Retorna cantidad
-    bool existeEnInventario(int idProducto) const;        // true si está registrado
+    void registrarStock(int idProducto, int cantInicial);
+    void aumentarStock(int idProducto, int cantidad);
+    void disminuirStock(int idProducto, int cantidad);
 
-    // Visualización
+    int consultarStock(int idProducto) const;
+    bool existeEnInventario(int idProducto) const;
+
     void mostrarInventario() const;
-    void mostrarAgotados()   const;
+    void mostrarAgotados() const;
 
-    // Persistencia
-    void guardarInventario(const string& nombreArchivo) const;
-    void cargarInventario (const string& nombreArchivo);
+    void guardarInventario(const std::string& nombreArchivo) const;
+    void cargarInventario(const std::string& nombreArchivo);
 
-    // Integración con otros módulos
     bool hayStockSuficiente(int idProducto, int cantidad) const;
-    const map<int, int>& getStocks() const;
+
+    const std::map<int, int>& getStocks() const;
 };
 
 #endif
