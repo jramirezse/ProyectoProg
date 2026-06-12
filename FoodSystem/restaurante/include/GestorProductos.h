@@ -22,7 +22,7 @@ private:
     bool        existeId(int id)          const;
     int         leerEnteroValido(const string& msg) const;
     double      leerDoubleValido(const string& msg) const;
-    std::string leerLineaNoVacia(const string& msg) const;
+    string leerLineaNoVacia(const string& msg) const;
 
 public:
     GestorProductos(const string& archProd = "data/productos.csv",
@@ -58,13 +58,13 @@ public:
 
     // Integración con Pedidos y Facturación
     double      getPrecioProducto  (int idProducto)              const;
-    std::string getNombreProducto  (int idProducto)              const;
+    string getNombreProducto  (int idProducto)              const;
     int         getStockDisponible (int idProducto)              const;
     bool        productoEstaActivo (int idProducto)              const;
     bool        hayStockSuficiente (int idProducto, int cantidad) const;
     bool        reducirStockPorVenta(int idProducto, int cantidad);
     int         getTotalProductos  ()                            const;
-    const std::vector<Producto>& getProductos()                  const;
+    const vector<Producto>& getProductos()                  const;
 };
 
 #endif

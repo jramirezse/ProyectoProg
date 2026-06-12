@@ -26,12 +26,12 @@ public:
     void mostrarAgotados()   const;
 
     // Persistencia
-    void guardarInventario(const std::string& nombreArchivo) const;
-    void cargarInventario (const std::string& nombreArchivo);
+    void guardarInventario(const string& nombreArchivo) const;
+    void cargarInventario (const string& nombreArchivo);
 
     // Integración con otros módulos
     bool hayStockSuficiente(int idProducto, int cantidad) const;
-    const std::map<int, int>& getStocks() const;
+    const map<int, int>& getStocks() const;
 };
 
 #endif

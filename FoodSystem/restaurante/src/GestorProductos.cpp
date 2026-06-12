@@ -10,8 +10,8 @@
 #include <algorithm>
 #include <windows.h> 
 using namespace std;
-GestorProductos::GestorProductos(const std::string& archProd,
-                                  const std::string& archInv)
+GestorProductos::GestorProductos(const string& archProd,
+                                  const string& archInv)
     : archivoProductos(archProd), archivoInventario(archInv)
 {}
 
@@ -28,43 +28,43 @@ bool GestorProductos::existeId(int id) const {
 }
 
 // Reintenta hasta recibir un entero válido
-int GestorProductos::leerEnteroValido(const std::string& msg) const {
+int GestorProductos::leerEnteroValido(const string& msg) const {
     int valor;
     while (true) {
-        std::cout << msg;
-        std::cin >> valor;
-        if (!std::cin.fail()) {
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << msg;
+        cin >> valor;
+        if (!cin.fail()) {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             return valor;
         }
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cout << "  [!] Ingrese un numero entero valido.\n";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "  [!] Ingrese un numero entero valido.\n";
     }
 }
 
-double GestorProductos::leerDoubleValido(const std::string& msg) const {
+double GestorProductos::leerDoubleValido(const string& msg) const {
     double valor;
     while (true) {
-        std::cout << msg;
-        std::cin >> valor;
-        if (!std::cin.fail()) {
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << msg;
+        cin >> valor;
+        if (!cin.fail()) {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             return valor;
         }
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cout << "  [!] Ingrese un numero valido (ej: 15000.50).\n";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "  [!] Ingrese un numero valido (ej: 15000.50).\n";
     }
 }
 
-std::string GestorProductos::leerLineaNoVacia(const std::string& msg) const {
-    std::string entrada;
+string GestorProductos::leerLineaNoVacia(const string& msg) const {
+    string entrada;
     while (true) {
-        std::cout << msg;
-        std::getline(std::cin, entrada);
+        cout << msg;
+        getline(cin, entrada);
         if (!entrada.empty()) return entrada;
-        std::cout << "  [!] El campo no puede estar vacio.\n";
+        cout << "  [!] El campo no puede estar vacio.\n";
     }
 }
 
@@ -80,7 +80,7 @@ void GestorProductos::menuPrincipal() {
             system("clear");
         #endif
 
-        std::cout << "\n"
+        cout << "\n"
                   << "  ╔══════════════════════════════════════╗\n"
                   << "  ║   SISTEMA DE RESTAURANTE - MÓDULO 1  ║\n"
                   << "  ║     PRODUCTOS E INVENTARIO           ║\n"
@@ -100,15 +100,15 @@ void GestorProductos::menuPrincipal() {
                     try {
                         guardarProductos();
                         guardarInventario();
-                        std::cout << "  [OK] Datos guardados.\n";
-                    } catch (const std::exception& e) {
-                        std::cout << "  [!] Error al guardar: " << e.what() << "\n";
+                        cout << "  [OK] Datos guardados.\n";
+                    } catch (const exception& e) {
+                        cout << "  [!] Error al guardar: " << e.what() << "\n";
                     }
                 }
-                std::cout << "  Hasta luego.\n\n";
+                cout << "  Hasta luego.\n\n";
                 break;
             default:
-                std::cout << "  [!] Opcion no valida.\n";
+                cout << "  [!] Opcion no valida.\n";
         }
     } while (opcion != 0);
 }
@@ -116,7 +116,7 @@ void GestorProductos::menuPrincipal() {
 void GestorProductos::menuProductos() {
     int opcion;
     do {
-        std::cout << "\n"
+        cout << "\n"
                   << "  ┌─────────────────────────────────────┐\n"
                   << "  │         GESTIÓN DE PRODUCTOS        │\n"
                   << "  ├─────────────────────────────────────┤\n"
@@ -145,14 +145,14 @@ void GestorProductos::menuProductos() {
                 case 8: guardarProductos();   break;
                 case 9: cargarProductos();    break;
                 case 0: break;
-                default: std::cout << "  [!] Opcion no valida.\n";
+                default: cout << "  [!] Opcion no valida.\n";
             }
-        } catch (const std::exception& e) {
-            std::cout << "  [ERROR] " << e.what() << "\n";
+        } catch (const exception& e) {
+            cout << "  [ERROR] " << e.what() << "\n";
         }
         if (opcion != 0) {
-            std::cout << "\n  Presione ENTER para continuar...";
-            std::cin.get();
+            cout << "\n  Presione ENTER para continuar...";
+            cin.get();
         }
     } while (opcion != 0);
 }
@@ -160,7 +160,7 @@ void GestorProductos::menuProductos() {
 void GestorProductos::menuInventario() {
     int opcion;
     do {
-        std::cout << "\n"
+        cout << "\n"
                   << "  ┌─────────────────────────────────────┐\n"
                   << "  │         GESTIÓN DE INVENTARIO       │\n"
                   << "  ├─────────────────────────────────────┤\n"
@@ -187,14 +187,14 @@ void GestorProductos::menuInventario() {
                 case 7: guardarInventario();          break;
                 case 8: cargarInventario();           break;
                 case 0: break;
-                default: std::cout << "  [!] Opcion no valida.\n";
+                default: cout << "  [!] Opcion no valida.\n";
             }
-        } catch (const std::exception& e) {
-            std::cout << "  [ERROR] " << e.what() << "\n";
+        } catch (const exception& e) {
+            cout << "  [ERROR] " << e.what() << "\n";
         }
         if (opcion != 0) {
-            std::cout << "\n  Presione ENTER para continuar...";
-            std::cin.get();
+            cout << "\n  Presione ENTER para continuar...";
+            cin.get();
         }
     } while (opcion != 0);
 }
@@ -202,49 +202,49 @@ void GestorProductos::menuInventario() {
 //  Operaciones sobre productos 
 
 void GestorProductos::agregarProducto() {
-    std::cout << "\n  --- AGREGAR NUEVO PRODUCTO ---\n";
+    cout << "\n  --- AGREGAR NUEVO PRODUCTO ---\n";
 
     int id;
     while (true) {
         id = leerEnteroValido("  ID del producto: ");
         if (!existeId(id)) break;
-        std::cout << "  [!] ID " << id << " ya existe. Use otro.\n";
+        cout << "  [!] ID " << id << " ya existe. Use otro.\n";
     }
 
-    std::string nombre    = leerLineaNoVacia("  Nombre: ");
-    std::string categoria = leerLineaNoVacia("  Categoria: ");
+    string nombre    = leerLineaNoVacia("  Nombre: ");
+    string categoria = leerLineaNoVacia("  Categoria: ");
 
     double precio;
     while (true) {
         precio = leerDoubleValido("  Precio: ");
         if (precio >= 0) break;
-        std::cout << "  [!] El precio no puede ser negativo.\n";
+        cout << "  [!] El precio no puede ser negativo.\n";
     }
 
     try {
         productos.push_back(Producto(id, nombre, categoria, precio));
-        std::cout << "  [OK] Producto '" << nombre << "' agregado.\n";
-    } catch (const std::invalid_argument& e) {
-        std::cout << "  [ERROR] " << e.what() << "\n";
+        cout << "  [OK] Producto '" << nombre << "' agregado.\n";
+    } catch (const invalid_argument& e) {
+        cout << "  [ERROR] " << e.what() << "\n";
     }
 }
 
 void GestorProductos::mostrarTodos() const {
-    if (productos.empty()) { std::cout << "\n  [!] No hay productos.\n"; return; }
+    if (productos.empty()) { cout << "\n  [!] No hay productos.\n"; return; }
 
-    std::cout << "\n" << std::string(75, '=') << "\n"
+    cout << "\n" << string(75, '=') << "\n"
               << "  CATÁLOGO COMPLETO DE PRODUCTOS\n"
-              << std::string(75, '-') << "\n"
-              << std::left  << std::setw(6)  << "ID"
-                            << std::setw(25) << "NOMBRE"
-                            << std::setw(15) << "CATEGORIA"
-              << std::right << std::setw(12) << "PRECIO"
-                            << std::setw(10) << "ESTADO" << "\n"
-              << std::string(75, '-') << "\n";
+              << string(75, '-') << "\n"
+              << left  << setw(6)  << "ID"
+                            << setw(25) << "NOMBRE"
+                            << setw(15) << "CATEGORIA"
+              << right << setw(12) << "PRECIO"
+                            << setw(10) << "ESTADO" << "\n"
+              << string(75, '-') << "\n";
 
     for (const Producto& p : productos) p.mostrar();
 
-    std::cout << std::string(75, '=') << "\n"
+    cout << string(75, '=') << "\n"
               << "  Total: " << productos.size() << " producto(s)\n";
 }
 
@@ -252,135 +252,135 @@ void GestorProductos::buscarPorId() const {
     int id = leerEnteroValido("  ID a buscar: ");
     int i  = buscarIndicePorId(id);
     if (i == -1) {
-        std::cout << "  [!] No existe producto con ID " << id << ".\n";
+        cout << "  [!] No existe producto con ID " << id << ".\n";
     } else {
-        std::cout << "\n" << std::string(75, '-') << "\n";
-        std::cout << std::left  << std::setw(6)  << "ID"
-                                << std::setw(25) << "NOMBRE"
-                                << std::setw(15) << "CATEGORIA"
-                  << std::right << std::setw(12) << "PRECIO"
-                                << std::setw(10) << "ESTADO" << "\n"
-                  << std::string(75, '-') << "\n";
+        cout << "\n" << string(75, '-') << "\n";
+        cout << left  << setw(6)  << "ID"
+                                << setw(25) << "NOMBRE"
+                                << setw(15) << "CATEGORIA"
+                  << right << setw(12) << "PRECIO"
+                                << setw(10) << "ESTADO" << "\n"
+                  << string(75, '-') << "\n";
         productos[i].mostrar();
     }
 }
 
 void GestorProductos::buscarPorNombre() const {
-    std::string busq = leerLineaNoVacia("  Nombre a buscar (parcial): ");
-    std::string busqMin = busq;
-    std::transform(busqMin.begin(), busqMin.end(), busqMin.begin(), ::tolower);
+    string busq = leerLineaNoVacia("  Nombre a buscar (parcial): ");
+    string busqMin = busq;
+    transform(busqMin.begin(), busqMin.end(), busqMin.begin(), ::tolower);
 
     bool encontrado = false;
-    std::cout << "\n" << std::string(75, '-') << "\n";
+    cout << "\n" << string(75, '-') << "\n";
     for (const Producto& p : productos) {
-        std::string nomMin = p.getNombre();
-        std::transform(nomMin.begin(), nomMin.end(), nomMin.begin(), ::tolower);
-        if (nomMin.find(busqMin) != std::string::npos) {
+        string nomMin = p.getNombre();
+        transform(nomMin.begin(), nomMin.end(), nomMin.begin(), ::tolower);
+        if (nomMin.find(busqMin) != string::npos) {
             p.mostrar();
             encontrado = true;
         }
     }
-    if (!encontrado) std::cout << "  [!] Sin resultados.\n";
+    if (!encontrado) cout << "  [!] Sin resultados.\n";
 }
 
 void GestorProductos::modificarProducto() {
     int id = leerEnteroValido("  ID a modificar: ");
     int i  = buscarIndicePorId(id);
-    if (i == -1) { std::cout << "  [!] ID no encontrado.\n"; return; }
+    if (i == -1) { cout << "  [!] ID no encontrado.\n"; return; }
 
-    std::cout << "\n  Datos actuales:\n";
+    cout << "\n  Datos actuales:\n";
     productos[i].mostrar();
-    std::cout << "\n  (ENTER = mantener valor actual)\n";
+    cout << "\n  (ENTER = mantener valor actual)\n";
 
     // Nombre
-    std::cout << "  Nuevo nombre [" << productos[i].getNombre() << "]: ";
-    std::string val; std::getline(std::cin, val);
+    cout << "  Nuevo nombre [" << productos[i].getNombre() << "]: ";
+    string val; getline(cin, val);
     if (!val.empty()) {
         try { productos[i].setNombre(val); }
-        catch (const std::exception& e) { std::cout << "  [!] " << e.what() << "\n"; }
+        catch (const exception& e) { cout << "  [!] " << e.what() << "\n"; }
     }
 
     // Categoria
-    std::cout << "  Nueva categoria [" << productos[i].getCategoria() << "]: ";
-    std::getline(std::cin, val);
+    cout << "  Nueva categoria [" << productos[i].getCategoria() << "]: ";
+    getline(cin, val);
     if (!val.empty()) {
         try { productos[i].setCategoria(val); }
-        catch (const std::exception& e) { std::cout << "  [!] " << e.what() << "\n"; }
+        catch (const exception& e) { cout << "  [!] " << e.what() << "\n"; }
     }
 
     // Precio
-    std::cout << "  Nuevo precio [" << productos[i].getPrecio() << "]: ";
-    std::getline(std::cin, val);
+    cout << "  Nuevo precio [" << productos[i].getPrecio() << "]: ";
+    getline(cin, val);
     if (!val.empty()) {
-        try { productos[i].setPrecio(std::stod(val)); }
-        catch (...) { std::cout << "  [!] Precio invalido. Sin cambios.\n"; }
+        try { productos[i].setPrecio(stod(val)); }
+        catch (...) { cout << "  [!] Precio invalido. Sin cambios.\n"; }
     }
 
-    std::cout << "  [OK] Producto modificado.\n";
+    cout << "  [OK] Producto modificado.\n";
 }
 
 void GestorProductos::desactivarProducto() {
     int id = leerEnteroValido("  ID a desactivar: ");
     int i  = buscarIndicePorId(id);
-    if (i == -1)                     { std::cout << "  [!] ID no encontrado.\n"; return; }
-    if (!productos[i].isActivo())    { std::cout << "  [!] Ya esta inactivo.\n"; return; }
+    if (i == -1)                     { cout << "  [!] ID no encontrado.\n"; return; }
+    if (!productos[i].isActivo())    { cout << "  [!] Ya esta inactivo.\n"; return; }
     productos[i].setActivo(false);
-    std::cout << "  [OK] '" << productos[i].getNombre() << "' desactivado.\n";
+    cout << "  [OK] '" << productos[i].getNombre() << "' desactivado.\n";
 }
 
 void GestorProductos::activarProducto() {
     int id = leerEnteroValido("  ID a activar: ");
     int i  = buscarIndicePorId(id);
-    if (i == -1)                  { std::cout << "  [!] ID no encontrado.\n"; return; }
-    if (productos[i].isActivo())  { std::cout << "  [!] Ya esta activo.\n";   return; }
+    if (i == -1)                  { cout << "  [!] ID no encontrado.\n"; return; }
+    if (productos[i].isActivo())  { cout << "  [!] Ya esta activo.\n";   return; }
     productos[i].setActivo(true);
-    std::cout << "  [OK] '" << productos[i].getNombre() << "' activado.\n";
+    cout << "  [OK] '" << productos[i].getNombre() << "' activado.\n";
 }
 
 void GestorProductos::guardarProductos() const {
-    if (productos.empty()) { std::cout << "  [!] No hay productos para guardar.\n"; return; }
-    std::ofstream archivo(archivoProductos);
+    if (productos.empty()) { cout << "  [!] No hay productos para guardar.\n"; return; }
+    ofstream archivo(archivoProductos);
     if (!archivo.is_open())
-        throw std::runtime_error("No se pudo abrir: " + archivoProductos +
+        throw runtime_error("No se pudo abrir: " + archivoProductos +
                                  "\nVerifique que la carpeta 'data' existe.");
     archivo << "id,nombre,categoria,precio,estado\n";
     for (const Producto& p : productos) archivo << p.toString() << "\n";
     archivo.close();
-    std::cout << "  [OK] " << productos.size() << " producto(s) guardado(s).\n";
+    cout << "  [OK] " << productos.size() << " producto(s) guardado(s).\n";
 }
 
 void GestorProductos::cargarProductos() {
-    std::ifstream archivo(archivoProductos);
+    ifstream archivo(archivoProductos);
     if (!archivo.is_open())
-        throw std::runtime_error("No se pudo abrir: " + archivoProductos);
+        throw runtime_error("No se pudo abrir: " + archivoProductos);
 
     productos.clear();
-    std::string linea;
-    std::getline(archivo, linea); // saltar encabezado
+    string linea;
+    getline(archivo, linea); // saltar encabezado
 
     int cargados = 0, errores = 0, numLinea = 2;
-    while (std::getline(archivo, linea)) {
+    while (getline(archivo, linea)) {
         if (linea.empty()) { numLinea++; continue; }
         try {
             Producto p;
             p.fromString(linea);
             if (existeId(p.getId())) {
-                std::cerr << "  [ADVERTENCIA] ID " << p.getId()
+                cerr << "  [ADVERTENCIA] ID " << p.getId()
                           << " duplicado en linea " << numLinea << ". Omitido.\n";
                 errores++;
             } else {
                 productos.push_back(p);
                 cargados++;
             }
-        } catch (const std::exception& e) {
-            std::cerr << "  [ADVERTENCIA] Linea " << numLinea << ": " << e.what() << "\n";
+        } catch (const exception& e) {
+            cerr << "  [ADVERTENCIA] Linea " << numLinea << ": " << e.what() << "\n";
             errores++;
         }
         numLinea++;
     }
-    std::cout << "  [OK] Cargados: " << cargados << " producto(s).";
-    if (errores > 0) std::cout << " Errores: " << errores << ".";
-    std::cout << "\n";
+    cout << "  [OK] Cargados: " << cargados << " producto(s).";
+    if (errores > 0) cout << " Errores: " << errores << ".";
+    cout << "\n";
 }
 
 // ── Operaciones sobre inventario ─────────────────────────────
@@ -388,33 +388,33 @@ void GestorProductos::cargarProductos() {
 void GestorProductos::registrarStockInicial() {
     int id = leerEnteroValido("  ID del producto: ");
     if (!existeId(id)) {
-        std::cout << "  [!] Producto ID " << id << " no existe en el catalogo.\n";
+        cout << "  [!] Producto ID " << id << " no existe en el catalogo.\n";
         return;
     }
     int cant = leerEnteroValido("  Cantidad inicial: ");
     inventario.registrarStock(id, cant);
-    std::cout << "  [OK] Stock inicial de " << cant << " uds. registrado.\n";
+    cout << "  [OK] Stock inicial de " << cant << " uds. registrado.\n";
 }
 
 void GestorProductos::aumentarStock() {
     int id   = leerEnteroValido("  ID del producto: ");
     int cant = leerEnteroValido("  Cantidad a aumentar: ");
     inventario.aumentarStock(id, cant);
-    std::cout << "  [OK] Nuevo stock: " << inventario.consultarStock(id) << " uds.\n";
+    cout << "  [OK] Nuevo stock: " << inventario.consultarStock(id) << " uds.\n";
 }
 
 void GestorProductos::disminuirStock() {
     int id   = leerEnteroValido("  ID del producto: ");
     int cant = leerEnteroValido("  Cantidad a disminuir: ");
     inventario.disminuirStock(id, cant);
-    std::cout << "  [OK] Nuevo stock: " << inventario.consultarStock(id) << " uds.\n";
+    cout << "  [OK] Nuevo stock: " << inventario.consultarStock(id) << " uds.\n";
 }
 
 void GestorProductos::consultarStock() const {
     int id  = leerEnteroValido("  ID del producto: ");
-    std::string nombre = getNombreProducto(id);
+    string nombre = getNombreProducto(id);
     int stock = inventario.consultarStock(id);
-    std::cout << "  " << (nombre.empty() ? "(sin nombre)" : nombre)
+    cout << "  " << (nombre.empty() ? "(sin nombre)" : nombre)
               << " | Stock: " << stock << " uds.\n";
 }
 
@@ -428,12 +428,12 @@ void GestorProductos::mostrarProductosAgotados() const {
 
 void GestorProductos::guardarInventario() const {
     inventario.guardarInventario(archivoInventario);
-    std::cout << "  [OK] Inventario guardado.\n";
+    cout << "  [OK] Inventario guardado.\n";
 }
 
 void GestorProductos::cargarInventario() {
     inventario.cargarInventario(archivoInventario);
-    std::cout << "  [OK] Inventario cargado.\n";
+    cout << "  [OK] Inventario cargado.\n";
 }
 
 // Integracion 
@@ -443,7 +443,7 @@ double GestorProductos::getPrecioProducto(int id) const {
     return (i == -1) ? -1.0 : productos[i].getPrecio();
 }
 
-std::string GestorProductos::getNombreProducto(int id) const {
+string GestorProductos::getNombreProducto(int id) const {
     int i = buscarIndicePorId(id);
     return (i == -1) ? "" : productos[i].getNombre();
 }
@@ -471,6 +471,6 @@ int GestorProductos::getTotalProductos() const {
     return (int)productos.size();
 }
 
-const std::vector<Producto>& GestorProductos::getProductos() const {
+const vector<Producto>& GestorProductos::getProductos() const {
     return productos;
 }

@@ -33,7 +33,7 @@ public:
     void setActivo(bool estado);
 
     void        mostrar()    const;          // Imprime una fila en consola
-    std::string toString()   const;          // Convierte a línea CSV
+    string toString()   const;          // Convierte a línea CSV
     void        fromString(const string& linea); // Carga desde línea CSV
 };
 
