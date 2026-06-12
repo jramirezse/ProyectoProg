@@ -1,5 +1,5 @@
 #ifndef MESA_H
-#define Mesa_H
+#define MESA_H
 
 class Mesa{
 private:
