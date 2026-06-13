@@ -84,26 +84,39 @@ void Pedido::cerrarPedido() {
     activo = false;
 }
 void Pedido::mostrar() const {
-    cout << "\n===== PEDIDO #" << idPedido << " =====\n";
-    cout << "Mesa: " << idMesa << "\n";
-    cout << "Estado: " << (activo ? "ACTIVO" : "CERRADO") << "\n";
+    cout << "\n" << string(75, '=') << "\n"
+         << "  PEDIDO #" << idPedido
+         << " | Mesa: " << idMesa
+         << " | Estado: " << (activo ? "ACTIVO" : "CERRADO") << "\n"
+         << string(75, '-') << "\n";
 
     if (items.empty()) {
-        cout << "El pedido no tiene productos.\n";
+        cout << "  [!] El pedido no tiene productos.\n";
+        cout << string(75, '=') << "\n";
         return;
     }
-    for (const ItemPedido& item : items) {
-    cout << left 
-         << setw(8) << item.idProducto
-         << setw(25) << item.nombreProducto
-         << setw(10) << item.cantidad
-         << setw(12) << fixed << setprecision(2) << item.precioUnitario
-         << setw(12) << fixed << setprecision(2) << item.subtotal() 
+
+    cout << left
+         << setw(8) << "ID"
+         << setw(25) << "PRODUCTO"
+         << setw(10) << "CANT."
+         << setw(15) << "PRECIO"
+         << setw(15) << "SUBTOTAL"
          << "\n";
+
+    cout << string(75, '-') << "\n";
+
+    for (const ItemPedido& item : items) {
+        cout << left
+             << setw(8) << item.idProducto
+             << setw(25) << item.nombreProducto
+             << setw(10) << item.cantidad
+             << "$" << setw(14) << fixed << setprecision(2) << item.precioUnitario
+             << "$" << setw(14) << fixed << setprecision(2) << item.subtotal()
+             << "\n";
     }
-    cout << string(67, '-') << "\n";
-    cout << "TOTAL: $" << fixed << setprecision(2) << calcularTotal() << "\n";
-}
-const vector<ItemPedido>& Pedido::getItems() const {
-    return items;
+
+    cout << string(75, '-') << "\n";
+    cout << "  TOTAL: $" << fixed << setprecision(2) << calcularTotal() << "\n";
+    cout << string(75, '=') << "\n";
 }
