@@ -3,6 +3,8 @@
 #include <iostream>
 #include <limits>
 #include <stdexcept>
+#include <cstdlib>
+#include <iomanip>
 
 using namespace std;
 
@@ -64,18 +66,26 @@ void GestorRestaurante::menuRestaurante() {
     int opcion;
 
     do {
-        cout << "\n===== GESTION DEL RESTAURANTE =====\n";
-        cout << "1. Mostrar mesas\n";
-        cout << "2. Abrir pedido en mesa\n";
-        cout << "3. Agregar producto a pedido\n";
-        cout << "4. Ver pedido activo de una mesa\n";
-        cout << "5. Cerrar pedido y liberar mesa\n";
-        cout << "6. Mostrar todos los pedidos\n";
-        cout << "0. Volver\n";
-        cout << "Seleccione una opcion: ";
+        #ifdef _WIN32
+            system("cls");
+        #else
+            system("clear");
+        #endif
 
-        cin >> opcion;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "\n"
+             << "  ┌─────────────────────────────────────┐\n"
+             << "  │        GESTIÓN DE RESTAURANTE       │\n"
+             << "  ├─────────────────────────────────────┤\n"
+             << "  │  1. Mostrar mesas                   │\n"
+             << "  │  2. Abrir pedido en mesa            │\n"
+             << "  │  3. Agregar producto a pedido       │\n"
+             << "  │  4. Ver pedido activo               │\n"
+             << "  │  5. Cerrar pedido y liberar mesa    │\n"
+             << "  │  6. Mostrar historial de pedidos    │\n"
+             << "  │  0. Volver                          │\n"
+             << "  └─────────────────────────────────────┘\n";
+
+        opcion = leerEnteroValido("  Seleccione: ");
 
         try {
             switch (opcion) {
@@ -104,41 +114,68 @@ void GestorRestaurante::menuRestaurante() {
                     break;
 
                 case 0:
-                    cout << "Volviendo al menu anterior...\n";
                     break;
 
                 default:
-                    cout << "Opcion no valida.\n";
+                    cout << "  [!] Opcion no valida.\n";
                     break;
             }
         } catch (const exception& e) {
-            cout << "Error: " << e.what() << "\n";
+            cout << "  [ERROR] " << e.what() << "\n";
+        }
+
+        if (opcion != 0) {
+            cout << "\n  Presione ENTER para continuar...";
+            cin.get();
         }
 
     } while (opcion != 0);
 }
 
 void GestorRestaurante::mostrarMesas() const {
-    cout << "\n===== MESAS =====\n";
+    cout << "\n" << string(70, '=') << "\n"
+         << "  ESTADO DE MESAS\n"
+         << string(70, '-') << "\n"
+         << left << setw(10) << "ID"
+         << setw(15) << "CAPACIDAD"
+         << setw(15) << "ESTADO"
+         << setw(20) << "PEDIDO ACTIVO"
+         << "\n"
+         << string(70, '-') << "\n";
 
     for (const Mesa& mesa : mesas) {
-        mesa.mostrar();
+        cout << left
+             << setw(10) << mesa.getIdMesa()
+             << setw(15) << mesa.getCapacidad()
+             << setw(15) << (mesa.estaOcupada() ? "OCUPADA" : "LIBRE");
+
+        if (mesa.estaOcupada()) {
+            cout << setw(20) << mesa.getIdPedidoActivo();
+        } else {
+            cout << setw(20) << "-";
+        }
+
+        cout << "\n";
     }
+
+    cout << string(70, '=') << "\n";
 }
 
 void GestorRestaurante::abrirPedido() {
+    cout << "\n  --- ABRIR PEDIDO EN MESA ---\n";
+
     mostrarMesas();
 
-    int idMesa = leerEnteroValido("\nIngrese el ID de la mesa: ");
+    int idMesa = leerEnteroValido("\n  ID de la mesa: ");
     int indiceMesa = buscarMesaPorId(idMesa);
 
     if (indiceMesa == -1) {
-        cout << "No existe una mesa con ese ID.\n";
+        cout << "  [!] No existe una mesa con ese ID.\n";
         return;
     }
 
     if (mesas[indiceMesa].estaOcupada()) {
-        cout << "La mesa ya tiene un pedido activo.\n";
+        cout << "  [!] La mesa ya tiene un pedido activo.\n";
         return;
     }
 
@@ -147,52 +184,54 @@ void GestorRestaurante::abrirPedido() {
 
     mesas[indiceMesa].ocupar(siguienteIdPedido);
 
-    cout << "Pedido #" << siguienteIdPedido
+    cout << "  [OK] Pedido #" << siguienteIdPedido
          << " abierto en la mesa " << idMesa << ".\n";
 
     siguienteIdPedido++;
 }
 
 void GestorRestaurante::agregarProductoAPedido() {
-    int idMesa = leerEnteroValido("Ingrese el ID de la mesa: ");
+    cout << "\n  --- AGREGAR PRODUCTO A PEDIDO ---\n";
+
+    int idMesa = leerEnteroValido("  ID de la mesa: ");
     int indiceMesa = buscarMesaPorId(idMesa);
 
     if (indiceMesa == -1) {
-        cout << "No existe una mesa con ese ID.\n";
+        cout << "  [!] No existe una mesa con ese ID.\n";
         return;
     }
 
     if (!mesas[indiceMesa].estaOcupada()) {
-        cout << "La mesa no tiene un pedido activo.\n";
+        cout << "  [!] La mesa no tiene un pedido activo.\n";
         return;
     }
 
     int indicePedido = buscarPedidoActivoPorMesa(idMesa);
 
     if (indicePedido == -1) {
-        cout << "No se encontro pedido activo para esta mesa.\n";
+        cout << "  [!] No se encontro pedido activo para esta mesa.\n";
         return;
     }
 
-    cout << "\nProductos disponibles:\n";
+    cout << "\n  Productos disponibles:\n";
     gestorProductos.mostrarTodos();
 
-    int idProducto = leerEnteroValido("\nIngrese el ID del producto: ");
-    int cantidad = leerEnteroValido("Ingrese la cantidad: ");
+    int idProducto = leerEnteroValido("\n  ID del producto: ");
+    int cantidad = leerEnteroValido("  Cantidad: ");
 
     if (cantidad <= 0) {
-        cout << "La cantidad debe ser positiva.\n";
+        cout << "  [!] La cantidad debe ser positiva.\n";
         return;
     }
 
     if (!gestorProductos.productoEstaActivo(idProducto)) {
-        cout << "El producto no existe o no esta activo.\n";
+        cout << "  [!] El producto no existe o no esta activo.\n";
         return;
     }
 
     if (!gestorProductos.hayStockSuficiente(idProducto, cantidad)) {
-        cout << "No hay stock suficiente para ese producto.\n";
-        cout << "Stock disponible: "
+        cout << "  [!] No hay stock suficiente para ese producto.\n";
+        cout << "  Stock disponible: "
              << gestorProductos.getStockDisponible(idProducto)
              << "\n";
         return;
@@ -202,29 +241,31 @@ void GestorRestaurante::agregarProductoAPedido() {
     double precio = gestorProductos.getPrecioProducto(idProducto);
 
     if (nombre.empty() || precio < 0) {
-        cout << "No se pudo obtener la informacion del producto.\n";
+        cout << "  [!] No se pudo obtener la informacion del producto.\n";
         return;
     }
 
     bool stockReducido = gestorProductos.reducirStockPorVenta(idProducto, cantidad);
 
     if (!stockReducido) {
-        cout << "No fue posible descontar el stock.\n";
+        cout << "  [!] No fue posible descontar el stock.\n";
         return;
     }
 
     pedidos[indicePedido].agregarItem(idProducto, nombre, cantidad, precio);
     gestorProductos.guardarInventario();
 
-    cout << "Producto agregado al pedido correctamente.\n";
+    cout << "  [OK] Producto agregado al pedido correctamente.\n";
 }
 
 void GestorRestaurante::verPedidoActivo() const {
-    int idMesa = leerEnteroValido("Ingrese el ID de la mesa: ");
+    cout << "\n  --- CONSULTAR PEDIDO ACTIVO ---\n";
+
+    int idMesa = leerEnteroValido("  ID de la mesa: ");
     int indicePedido = buscarPedidoActivoPorMesa(idMesa);
 
     if (indicePedido == -1) {
-        cout << "No hay pedido activo para esa mesa.\n";
+        cout << "  [!] No hay pedido activo para esa mesa.\n";
         return;
     }
 
@@ -232,24 +273,25 @@ void GestorRestaurante::verPedidoActivo() const {
 }
 
 void GestorRestaurante::cerrarPedido() {
-    int idMesa = leerEnteroValido("Ingrese el ID de la mesa: ");
+    cout << "\n  --- CERRAR PEDIDO ---\n";
 
+    int idMesa = leerEnteroValido("  ID de la mesa: ");
     int indiceMesa = buscarMesaPorId(idMesa);
 
     if (indiceMesa == -1) {
-        cout << "No existe una mesa con ese ID.\n";
+        cout << "  [!] No existe una mesa con ese ID.\n";
         return;
     }
 
     if (!mesas[indiceMesa].estaOcupada()) {
-        cout << "La mesa ya esta libre.\n";
+        cout << "  [!] La mesa ya esta libre.\n";
         return;
     }
 
     int indicePedido = buscarPedidoActivoPorMesa(idMesa);
 
     if (indicePedido == -1) {
-        cout << "No se encontro pedido activo para esta mesa.\n";
+        cout << "  [!] No se encontro pedido activo para esta mesa.\n";
         return;
     }
 
@@ -260,20 +302,25 @@ void GestorRestaurante::cerrarPedido() {
     pedidos[indicePedido].cerrarPedido();
     mesas[indiceMesa].liberar();
 
-    cout << "\nPedido cerrado correctamente.\n";
-    cout << "Total pagado: $" << total << "\n";
-    cout << "Mesa " << idMesa << " liberada.\n";
+    cout << "\n  [OK] Pedido cerrado correctamente.\n";
+    cout << "  Total pagado: $" << fixed << setprecision(2) << total << "\n";
+    cout << "  [OK] Mesa " << idMesa << " liberada.\n";
 }
 
 void GestorRestaurante::mostrarPedidos() const {
-    cout << "\n===== HISTORIAL DE PEDIDOS =====\n";
+    cout << "\n" << string(70, '=') << "\n"
+         << "  HISTORIAL DE PEDIDOS\n"
+         << string(70, '-') << "\n";
 
     if (pedidos.empty()) {
-        cout << "No hay pedidos registrados.\n";
+        cout << "  [!] No hay pedidos registrados.\n";
+        cout << string(70, '=') << "\n";
         return;
     }
 
     for (const Pedido& pedido : pedidos) {
         pedido.mostrar();
     }
+
+    cout << string(70, '=') << "\n";
 }
