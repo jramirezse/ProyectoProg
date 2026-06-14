@@ -1,4 +1,4 @@
-#pragma once
+#include "clientes.h"
 
 #include <string>
 #include <vector>
@@ -19,39 +19,36 @@ vector<bool> activosClientes;
 
 
 int buscarIndiceClientePorId(int idBuscado) {
-    for (int i = 0; i<idsClientes.size();i++){
-        if (i == idBuscado){
+    for (int i = 0; i < idsClientes.size(); i++) {
+        if (idsClientes[i] == idBuscado) {
             return i;
         }
-    }   
+    }
+
     return -1;
-    
 }
 
-int generadIdClienteAleatorio(){
+int generarIdClienteAleatorio() {
 
-    if(idsClientes.size()<999){
-        bool cic = true;
-    bool check = true;
-    srand(time(NULL));
-    while (cic == true){
-        check = true;
-        int num = (rand()%999) + 1;
-    
-        for(int comp : idsClientes){
-            if(comp == num){
-                check = false;
-            }
-        }if (check == true and num >0 ){
-
-            return num;
-        }
-    }
-
-
-    }else{
+    if (idsClientes.size() >= 999) {
         return -1;
     }
+
+    int num;
+    bool idExiste;
+
+    do {
+        num = (rand() % 999) + 1;
+
+        if (buscarIndiceClientePorId(num) != -1) {
+            idExiste = true;
+        } else {
+            idExiste = false;
+        }
+
+    } while (idExiste == true);
+
+    return num;
 }
 
 int registrarCliente(string nombre, string telefono) {
@@ -64,7 +61,7 @@ int registrarCliente(string nombre, string telefono) {
         return -1;
     }
 
-    int id = generadIdClienteAleatorio();
+    int id = generarIdClienteAleatorio();
 
     if (id == -1) {
         return -1;
@@ -137,7 +134,7 @@ bool modificarCliente(int idBuscado, string nuevoNombre, string nuevoTelefono) {
         return false;
     }
 
-    if (nuevoNombre.size()!= 10) {
+    if (nuevoTelefono.size()!= 10) {
         return false;
     }
 
@@ -206,6 +203,304 @@ bool guardarClientes(string nombreArchivo) {
 
     return true;
 }
+bool cargarClientes(string nombreArchivo) {
+
+    ifstream archivo(nombreArchivo);
+
+    if (archivo.is_open() == false) {
+        return false;
+    }
+
+    idsClientes.clear();
+    nombresClientes.clear();
+    telefonosClientes.clear();
+    activosClientes.clear();
+
+    string linea;
+
+    getline(archivo, linea); 
+
+    while (getline(archivo, linea)) {
+
+        stringstream ss(linea);
+        if (linea == "") {
+         continue;
+        }
+
+        string campoId;
+        string campoNombre;
+        string campoTelefono;
+        string campoActivo;
+
+        getline(ss, campoId, ',');
+        getline(ss, campoNombre, ',');
+        getline(ss, campoTelefono, ',');
+        getline(ss, campoActivo, ',');
+
+        int id = stoi(campoId);
+        int activo = stoi(campoActivo);
+
+        idsClientes.push_back(id);
+        nombresClientes.push_back(campoNombre);
+        telefonosClientes.push_back(campoTelefono);
+        activosClientes.push_back(activo);
+    }
+
+    archivo.close();
+
+    return true;
+}
+void menuClientes() {
+
+    int opcion;
+
+    do {
+        cout << "\n"
+             << "╔════════════════════════════════════════════╗\n"
+             << "║            GESTION DE CLIENTES             ║\n"
+             << "╠════════════════════════════════════════════╣\n"
+             << "║  1. Registrar cliente                      ║\n"
+             << "║  2. Mostrar todos los clientes             ║\n"
+             << "║  3. Buscar cliente por ID                  ║\n"
+             << "║  4. Modificar cliente                      ║\n"
+             << "║  5. Desactivar cliente                     ║\n"
+             << "║  6. Activar cliente                        ║\n"
+             << "║  7. Guardar clientes en archivo            ║\n"
+             << "║  8. Cargar clientes desde archivo          ║\n"
+             << "║  0. Volver                                 ║\n"
+             << "╚════════════════════════════════════════════╝\n"
+             << "Seleccione una opcion: ";
+
+        cin >> opcion;
+
+        switch (opcion) {
+
+            case 1: {
+                string nombre;
+                string telefono;
+
+                cin.ignore();
+
+                cout << "\n"
+                     << "╔════════════════════════════════════════════╗\n"
+                     << "║             REGISTRAR CLIENTE              ║\n"
+                     << "╚════════════════════════════════════════════╝\n";
+
+                cout << "Ingrese nombre del cliente: ";
+                getline(cin, nombre);
+
+                cout << "Ingrese telefono del cliente: ";
+                getline(cin, telefono);
+
+                int idGenerado = registrarCliente(nombre, telefono);
+
+                if (idGenerado == -1) {
+                    cout << "\n"
+                         << "╔════════════════════════════════════════════╗\n"
+                         << "║  ERROR: No se pudo registrar el cliente    ║\n"
+                         << "╚════════════════════════════════════════════╝\n";
+                } else {
+                    cout << "\n"
+                         << "╔════════════════════════════════════════════╗\n"
+                         << "║        CLIENTE REGISTRADO CORRECTO         ║\n"
+                         << "╠════════════════════════════════════════════╣\n"
+                         << "║  ID asignado: " << idGenerado << "\n"
+                         << "╚════════════════════════════════════════════╝\n";
+                }
+
+                break;
+            }
+
+            case 2: {
+                cout << "\n"
+                     << "╔════════════════════════════════════════════╗\n"
+                     << "║          LISTADO DE CLIENTES               ║\n"
+                     << "╚════════════════════════════════════════════╝\n";
+
+                mostrarClientes();
+
+                break;
+            }
+
+            case 3: {
+                int id;
+
+                cout << "\n"
+                     << "╔════════════════════════════════════════════╗\n"
+                     << "║            BUSCAR CLIENTE POR ID           ║\n"
+                     << "╚════════════════════════════════════════════╝\n";
+
+                cout << "Ingrese el ID del cliente: ";
+                cin >> id;
+
+                mostrarClientePorId(id);
+
+                break;
+            }
+
+            case 4: {
+                int id;
+                string nuevoNombre;
+                string nuevoTelefono;
+
+                cout << "\n"
+                     << "╔════════════════════════════════════════════╗\n"
+                     << "║             MODIFICAR CLIENTE              ║\n"
+                     << "╚════════════════════════════════════════════╝\n";
+
+                cout << "Ingrese el ID del cliente a modificar: ";
+                cin >> id;
+
+                cin.ignore();
+
+                cout << "Ingrese nuevo nombre: ";
+                getline(cin, nuevoNombre);
+
+                cout << "Ingrese nuevo telefono: ";
+                getline(cin, nuevoTelefono);
+
+                bool resultado = modificarCliente(id, nuevoNombre, nuevoTelefono);
+
+                if (resultado) {
+                    cout << "\n"
+                         << "╔════════════════════════════════════════════╗\n"
+                         << "║        CLIENTE MODIFICADO CORRECTO         ║\n"
+                         << "╚════════════════════════════════════════════╝\n";
+                } else {
+                    cout << "\n"
+                         << "╔════════════════════════════════════════════╗\n"
+                         << "║  ERROR: No se pudo modificar el cliente    ║\n"
+                         << "╚════════════════════════════════════════════╝\n";
+                }
+
+                break;
+            }
+
+            case 5: {
+                int id;
+
+                cout << "\n"
+                     << "╔════════════════════════════════════════════╗\n"
+                     << "║            DESACTIVAR CLIENTE              ║\n"
+                     << "╚════════════════════════════════════════════╝\n";
+
+                cout << "Ingrese el ID del cliente a desactivar: ";
+                cin >> id;
+
+                bool resultado = desactivarCliente(id);
+
+                if (resultado) {
+                    cout << "\n"
+                         << "╔════════════════════════════════════════════╗\n"
+                         << "║       CLIENTE DESACTIVADO CORRECTO         ║\n"
+                         << "╚════════════════════════════════════════════╝\n";
+                } else {
+                    cout << "\n"
+                         << "╔════════════════════════════════════════════╗\n"
+                         << "║ ERROR: No se pudo desactivar el cliente    ║\n"
+                         << "╚════════════════════════════════════════════╝\n";
+                }
+
+                break;
+            }
+
+            case 6: {
+                int id;
+
+                cout << "\n"
+                     << "╔════════════════════════════════════════════╗\n"
+                     << "║              ACTIVAR CLIENTE               ║\n"
+                     << "╚════════════════════════════════════════════╝\n";
+
+                cout << "Ingrese el ID del cliente a activar: ";
+                cin >> id;
+
+                bool resultado = activarCliente(id);
+
+                if (resultado) {
+                    cout << "\n"
+                         << "╔════════════════════════════════════════════╗\n"
+                         << "║         CLIENTE ACTIVADO CORRECTO          ║\n"
+                         << "╚════════════════════════════════════════════╝\n";
+                } else {
+                    cout << "\n"
+                         << "╔════════════════════════════════════════════╗\n"
+                         << "║   ERROR: No se pudo activar el cliente     ║\n"
+                         << "╚════════════════════════════════════════════╝\n";
+                }
+
+                break;
+            }
+
+            case 7: {
+                cout << "\n"
+                     << "╔════════════════════════════════════════════╗\n"
+                     << "║              GUARDAR CLIENTES              ║\n"
+                     << "╚════════════════════════════════════════════╝\n";
+
+                bool resultado = guardarClientes("data/clientes.csv");
+
+                if (resultado) {
+                    cout << "\n"
+                         << "╔════════════════════════════════════════════╗\n"
+                         << "║       CLIENTES GUARDADOS CORRECTO          ║\n"
+                         << "╚════════════════════════════════════════════╝\n";
+                } else {
+                    cout << "\n"
+                         << "╔════════════════════════════════════════════╗\n"
+                         << "║ ERROR: No se pudo guardar clientes         ║\n"
+                         << "╚════════════════════════════════════════════╝\n";
+                }
+
+                break;
+            }
+
+            case 8: {
+                cout << "\n"
+                     << "╔════════════════════════════════════════════╗\n"
+                     << "║              CARGAR CLIENTES               ║\n"
+                     << "╚════════════════════════════════════════════╝\n";
+
+                bool resultado = cargarClientes("data/clientes.csv");
+
+                if (resultado) {
+                    cout << "\n"
+                         << "╔════════════════════════════════════════════╗\n"
+                         << "║       CLIENTES CARGADOS CORRECTO           ║\n"
+                         << "╚════════════════════════════════════════════╝\n";
+                } else {
+                    cout << "\n"
+                         << "╔════════════════════════════════════════════╗\n"
+                         << "║ ERROR: No se pudo cargar clientes          ║\n"
+                         << "╚════════════════════════════════════════════╝\n";
+                }
+
+                break;
+            }
+
+            case 0: {
+                cout << "\n"
+                     << "╔════════════════════════════════════════════╗\n"
+                     << "║          VOLVIENDO AL MENU ANTERIOR        ║\n"
+                     << "╚════════════════════════════════════════════╝\n";
+                break;
+            }
+
+            default: {
+                cout << "\n"
+                     << "╔════════════════════════════════════════════╗\n"
+                     << "║          OPCION INVALIDA                   ║\n"
+                     << "║          Intente nuevamente                ║\n"
+                     << "╚════════════════════════════════════════════╝\n";
+                break;
+            }
+        }
+
+    } while (opcion != 0);
+}
+
+
+
 
 
 

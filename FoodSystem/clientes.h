@@ -12,3 +12,5 @@ bool modificarCliente(int idBuscado, std::string nuevoNombre, std::string nuevoT
 bool desactivarCliente(int idBuscado);
 bool activarCliente(int idBuscado);
 bool guardarClientes(std ::string nombreArchivo);
+bool cargarClientes(std ::string nombreArchivo);
+void menuClientes();
