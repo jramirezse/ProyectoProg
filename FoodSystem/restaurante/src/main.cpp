@@ -1,6 +1,7 @@
 #include "GestorProductos.h"
 #include "GestorRestaurante.h"
-
+#include "clientes.h"
+#include <ctime>
 #include <iostream>
 #include <limits>
 #include <cstdlib>
@@ -37,6 +38,9 @@ void limpiarPantallaPrincipal() {
 }
 
 int main() {
+
+    srand(time(NULL));
+    cargarClientes("data/clientes.csv");
     #ifdef _WIN32
         SetConsoleOutputCP(CP_UTF8);
         SetConsoleCP(CP_UTF8);

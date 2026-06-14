@@ -8,7 +8,9 @@
 #include <iomanip>
 #include <limits>
 #include <algorithm>
+#ifdef _WIN32
 #include <windows.h> 
+#endif
 using namespace std;
 GestorProductos::GestorProductos(const string& archProd,
                                   const string& archInv)
@@ -71,7 +73,9 @@ string GestorProductos::leerLineaNoVacia(const string& msg) const {
 // ── Menús ────────────────────────────────────────────────────
 
 void GestorProductos::menuPrincipal() {
+    #ifdef _WIN32
     SetConsoleOutputCP(65001);
+    #endif
     int opcion;
     do {
         #ifdef _WIN32
