@@ -363,7 +363,16 @@ int main() {
 
             case 0:
                 guardarDatosSistema(gestorProductos);
-                cout << "\n  Gracias por usar FoodSystem.\n";
+                cout << "\n"
+                 << CYAN << " ╭────────────────────────────────────────────────────────────╮\n" << RESET
+                 << CYAN << " │                                                            │\n" << RESET
+                 << CYAN << " │" << RESET << BOLD << "        👋 ¡Gracias por usar FOODSYSTEM RESTAURANT!       " << RESET << CYAN << "│\n" << RESET
+                 << CYAN << " │" << DIM << "             Cerrando el sistema de forma segura...         " << RESET << CYAN << "│\n" << RESET
+                 << CYAN << " │                                                            │\n" << RESET
+                 << CYAN << " │" << GREEN << BOLD << "               ¡Que tengas un excelente día! 🍽️              " << RESET << CYAN << "│\n" << RESET
+                 << CYAN << " │                                                            │\n" << RESET
+                 << CYAN << " ╰────────────────────────────────────────────────────────────╯\n" << RESET
+                 << "\n";
                 break;
 
             default:
