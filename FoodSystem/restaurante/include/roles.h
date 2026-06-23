@@ -2,25 +2,23 @@
 
 #include <string>
 
-using namespace std;
+bool rolValido(std::string rol);
+int buscarIndiceUsuarioPorNombre(std::string nombreBuscado);
 
-bool rolValido(string rol);
-int buscarIndiceUsuarioPorNombre(string nombreBuscado);
+bool registrarUsuario(std::string nombre, std::string clave, std::string rol);
+bool usuarioActivo(std::string nombre);
 
-bool registrarUsuario(string nombre, string clave, string rol);
-bool usuarioActivo(string nombre);
+bool activarUsuario(std::string nombre);
+bool desactivarUsuario(std::string nombre);
 
-bool activarUsuario(string nombre);
-bool desactivarUsuario(string nombre);
+bool cambiarClaveUsuario(std::string nombre, std::string nuevaClave);
+bool cambiarRolUsuario(std::string nombre, std::string nuevoRol);
 
-bool cambiarClaveUsuario(string nombre, string nuevaClave);
-bool cambiarRolUsuario(string nombre, string nuevoRol);
+bool claveCorrecta(std::string nombre, std::string clave);
+std::string obtenerRolUsuario(std::string nombre);
 
-bool claveCorrecta(string nombre, string clave);
-string obtenerRolUsuario(string nombre);
-
-bool guardarUsuarios(string nombreArchivo);
-bool cargarUsuarios(string nombreArchivo);
+bool guardarUsuarios(std::string nombreArchivo);
+bool cargarUsuarios(std::string nombreArchivo);
 
 void mostrarUsuarios();
 void menuRoles();
