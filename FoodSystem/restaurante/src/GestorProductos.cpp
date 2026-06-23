@@ -132,7 +132,7 @@ void GestorProductos::menuProductos() {
                   << "  │  6. Desactivar producto             │\n"
                   << "  │  7. Activar producto                │\n"
                   << "  │  8. Guardar en archivo              │\n"
-                  << "  │  9. Cargar desde archivo            │\n"
+                  
                   << "  │  0. Volver                          │\n"
                   << "  └─────────────────────────────────────┘\n";
 
@@ -147,7 +147,7 @@ void GestorProductos::menuProductos() {
                 case 6: desactivarProducto(); break;
                 case 7: activarProducto();    break;
                 case 8: guardarProductos();   break;
-                case 9: cargarProductos();    break;
+                
                 case 0: break;
                 default: cout << "  [!] Opcion no valida.\n";
             }
@@ -175,7 +175,6 @@ void GestorProductos::menuInventario() {
                   << "  │  5. Mostrar inventario completo     │\n"
                   << "  │  6. Mostrar productos agotados      │\n"
                   << "  │  7. Guardar inventario              │\n"
-                  << "  │  8. Cargar inventario               │\n"
                   << "  │  0. Volver                          │\n"
                   << "  └─────────────────────────────────────┘\n";
 
