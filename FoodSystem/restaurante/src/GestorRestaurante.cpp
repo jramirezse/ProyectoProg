@@ -1,4 +1,5 @@
-#include "GestorRestaurante.h"
+#include "../include/GestorRestaurante.h"
+#include "facturacion.h"
 
 #include <iostream>
 #include <limits>
@@ -297,13 +298,46 @@ void GestorRestaurante::cerrarPedido() {
 
     pedidos[indicePedido].mostrar();
 
-    double total = pedidos[indicePedido].calcularTotal();
+    double subtotal = pedidos[indicePedido].calcularTotal();
 
-    pedidos[indicePedido].cerrarPedido();
+    if (subtotal <= 0) {
+       cout << "  [!] No se puede facturar un pedido sin productos.\n";
+      return;
+    }
+
+    int idCliente = leerEnteroValido("  ID del cliente (0 si es consumidor final): ");
+    int porcentajeDescuento = leerEnteroValido("  Porcentaje de descuento (0 si no aplica): ");
+    int porcentajePropina = leerEnteroValido("  Porcentaje de propina (0 si no aplica): ");
+
+    cargarVentas("data/ventas.csv");
+
+    bool ventaRegistrada = registrarVenta(
+    pedidos[indicePedido].getIdPedido(),
+    idCliente,
+    subtotal,
+    porcentajeDescuento,
+    porcentajePropina
+    );
+
+    if (ventaRegistrada == false) {
+        cout << "  [!] No se pudo registrar la venta.\n";
+        return;
+    }
+
+    bool ventasGuardadas = guardarVentas("data/ventas.csv");
+
+    if (ventasGuardadas == false) {
+        cout << "  [!] La venta se registro, pero no se pudo guardar en el archivo.\n";
+        return;
+    }
+
+    mostrarUltimaFactura();
+
+        pedidos[indicePedido].cerrarPedido();
     mesas[indiceMesa].liberar();
 
     cout << "\n  [OK] Pedido cerrado correctamente.\n";
-    cout << "  Total pagado: $" << fixed << setprecision(2) << total << "\n";
+    cout << "  [OK] Venta registrada en data/ventas.csv.\n";
     cout << "  [OK] Mesa " << idMesa << " liberada.\n";
 }
 

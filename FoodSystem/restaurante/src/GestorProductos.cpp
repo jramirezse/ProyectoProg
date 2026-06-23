@@ -1,6 +1,6 @@
 // GestorProductos.cpp - Implementación del gestor principal
 
-#include "GestorProductos.h"
+#include "../include/GestorProductos.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -477,4 +477,58 @@ int GestorProductos::getTotalProductos() const {
 
 const vector<Producto>& GestorProductos::getProductos() const {
     return productos;
+}
+void GestorProductos::mostrarMenuCliente() const {
+
+    if (productos.empty()) {
+        cout << "\n"
+             << "╔════════════════════════════════════════════╗\n"
+             << "║          NO HAY PRODUCTOS DISPONIBLES     ║\n"
+             << "╚════════════════════════════════════════════╝\n";
+        return;
+    }
+
+    bool hayProductosDisponibles = false;
+
+    cout << "\n"
+         << "╔════════════════════════════════════════════════════════════════════╗\n"
+         << "║                         MENU DEL RESTAURANTE                     ║\n"
+         << "╠════════════════════════════════════════════════════════════════════╣\n";
+
+    cout << left
+         << setw(8)  << "  ID"
+         << setw(28) << "NOMBRE"
+         << setw(18) << "CATEGORIA"
+         << right
+         << setw(12) << "PRECIO"
+         << endl;
+
+    cout << "╠════════════════════════════════════════════════════════════════════╣\n";
+
+    for (int i = 0; i < productos.size(); i++) {
+
+        int idProducto = productos[i].getId();
+
+        if (productos[i].isActivo() == true &&
+            inventario.hayStockSuficiente(idProducto, 1) == true) {
+
+            cout << left
+                 << "  "
+                 << setw(6)  << productos[i].getId()
+                 << setw(28) << productos[i].getNombre()
+                 << setw(18) << productos[i].getCategoria()
+                 << right
+                 << fixed << setprecision(2)
+                 << setw(12) << productos[i].getPrecio()
+                 << endl;
+
+            hayProductosDisponibles = true;
+        }
+    }
+
+    if (hayProductosDisponibles == false) {
+        cout << "  No hay productos activos con stock disponible." << endl;
+    }
+
+    cout << "╚════════════════════════════════════════════════════════════════════╝\n";
 }

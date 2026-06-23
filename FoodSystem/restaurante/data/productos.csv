@@ -1,2 +1,31 @@
 id,nombre,categoria,precio,estado
 1,Calentado paisa,Desayuno,9600.00,1
+2,Huevos pericos,Desayuno,8500.00,1
+3,Arepa con queso,Desayuno,6500.00,1
+4,Changua bogotana,Desayuno,7800.00,1
+5,Empanada de carne,Entrada,3500.00,1
+6,Patacon con hogao,Entrada,7200.00,1
+7,Sopa del dia,Entrada,8900.00,1
+8,Bandeja paisa,Plato fuerte,28500.00,1
+9,Ajiaco santafereño,Plato fuerte,26000.00,1
+10,Arroz con pollo,Plato fuerte,18500.00,1
+11,Mojarra frita,Plato fuerte,32000.00,1
+12,Pasta,Plato fuerte,20000.00,1
+13,Hamburguesa artesanal,Plato fuerte,22500.00,1
+14,Perro caliente especial,Comida rapida,14500.00,1
+15,Pizza personal,Comida rapida,19000.00,1
+16,Ensalada cesar,Saludable,17500.00,1
+17,Bowl de pollo,Saludable,21500.00,1
+18,Jugo natural mango,Bebida,6500.00,1
+19,Limonada natural,Bebida,6000.00,1
+20,Limonada de coco,Bebida,9500.00,1
+21,Gaseosa personal,Bebida,4500.00,1
+22,Cafe americano,Bebida,4000.00,1
+23,Chocolate caliente,Bebida,5500.00,1
+24,Postre tres leches,Postre,8500.00,1
+25,Brownie con helado,Postre,10500.00,1
+26,Flan de caramelo,Postre,7500.00,1
+27,Menu infantil pollo,Infantil,16000.00,1
+28,Filete de res,Plato fuerte,35500.00,1
+29,Costillas BBQ,Plato fuerte,34000.00,0
+30,Sushi roll especial,Especial,29500.00,0

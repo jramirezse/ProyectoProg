@@ -1,4 +1,4 @@
-#include "facturacion.h"
+#include "../include/facturacion.h"
 
 #include <iostream>
 #include <vector>
@@ -60,7 +60,7 @@ int generarIdVenta() {
 
     if(ventas.empty()){
 
-        return 0;
+        return 1;
     }
 
     int mayor = ventas[0].idVenta;
@@ -161,6 +161,7 @@ void mostrarVentas() {
     }
 }
 
+
 void mostrarFactura(Venta venta) {
 
     time_t ahora = time(0);
@@ -210,6 +211,18 @@ void mostrarFactura(Venta venta) {
     cout << "║          GRACIAS POR TU COMPRA            ║\n";
     cout << "║          Esperamos verte pronto           ║\n";
     cout << "╚════════════════════════════════════════════╝\n";
+}
+void mostrarUltimaFactura() {
+
+    if (ventas.empty()) {
+        cout << "\n"
+             << "╔════════════════════════════════════════════╗\n"
+             << "║          NO HAY FACTURA PARA MOSTRAR      ║\n"
+             << "╚════════════════════════════════════════════╝\n";
+        return;
+    }
+
+    mostrarFactura(ventas[ventas.size() - 1]);
 }
 bool guardarVentas(string nombreArchivo) {
 

@@ -38,6 +38,7 @@ public:
 
     void agregarProducto();
     void mostrarTodos() const;
+    void mostrarMenuCliente() const;
     void buscarPorId() const;
     void buscarPorNombre() const;
     void modificarProducto();
@@ -64,6 +65,8 @@ public:
     int getTotalProductos() const;
 
     const std::vector<Producto>& getProductos() const;
+
+
 };
 
 #endif

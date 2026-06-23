@@ -1,0 +1,10 @@
+usuario,clave,rol,activo
+admin,0000,ADMIN,1
+inventario1,0000,INVENTARIO,1
+cajero1,0000,CAJERO,1
+mesero1,0000,MESERO,1
+gerente,0000,ADMIN,1
+bodega,0000,INVENTARIO,1
+cajero2,0000,CAJERO,0
+mesero2,0000,MESERO,0
+cajero3,0000,CAJERO,0

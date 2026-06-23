@@ -1,6 +1,6 @@
 // Inventario.cpp - Implementación de la clase Inventario
 
-#include "Inventario.h"
+#include "../include/Inventario.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>

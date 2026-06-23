@@ -32,3 +32,4 @@ void mostrarFactura(Venta venta);
 void mostrarVentas();
 bool cargarVentas(std :: string nombreArchivo);
 bool guardarVentas(std :: string nombreArchivo);
+void mostrarUltimaFactura();

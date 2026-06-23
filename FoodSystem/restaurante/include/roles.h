@@ -2,28 +2,25 @@
 
 #include <string>
 
-struct Usuario {
-    std::string nombre;
-    std::string clave;
-    std::string rol;
-    bool activo;
-};
+using namespace std;
 
-int buscarIndiceUsuarioPorNombre(std::string nombreBuscado);
+bool rolValido(string rol);
+int buscarIndiceUsuarioPorNombre(string nombreBuscado);
 
-bool rolValido(std::string rol);
-bool registrarUsuario(std::string nombre, std::string clave, std::string rol);
+bool registrarUsuario(string nombre, string clave, string rol);
+bool usuarioActivo(string nombre);
+
+bool activarUsuario(string nombre);
+bool desactivarUsuario(string nombre);
+
+bool cambiarClaveUsuario(string nombre, string nuevaClave);
+bool cambiarRolUsuario(string nombre, string nuevoRol);
+
+bool claveCorrecta(string nombre, string clave);
+string obtenerRolUsuario(string nombre);
+
+bool guardarUsuarios(string nombreArchivo);
+bool cargarUsuarios(string nombreArchivo);
 
 void mostrarUsuarios();
-
-bool cambiarClaveUsuario(std::string nombreBuscado, std::string nuevaClave);
-bool cambiarRolUsuario(std::string nombreBuscado, std::string nuevoRol);
-bool desactivarUsuario(std::string nombreBuscado);
-bool activarUsuario(std::string nombreBuscado);
-
-bool cargarUsuarios(std::string nombreArchivo);
-bool guardarUsuarios(std::string nombreArchivo);
-
-std::string iniciarSesion();
-
 void menuRoles();

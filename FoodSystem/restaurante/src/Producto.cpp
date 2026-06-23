@@ -1,6 +1,6 @@
 // Producto.cpp - Implementación de la clase Producto
 
-#include "Producto.h"
+#include "../include/Producto.h"
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
