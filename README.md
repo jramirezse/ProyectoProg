@@ -2,6 +2,12 @@
 
 **FoodSystem** es un sistema de gestión para restaurante desarrollado en **C++** mediante consola. El proyecto permite administrar productos, inventario, mesas, pedidos, clientes, facturación, ventas, estadísticas y usuarios con roles, utilizando archivos `.csv` para conservar la información del sistema.
 
+# Integrantes 
+
+Sebastián Jimenez Polanco - sjimenezpo@unal.edu.co
+Juan Jose Rodriguez Vargas - jurodriguezvar@unal.edu.co
+Juan Camilo Ramirez Segura - jramirezse@unal.edu.co
+
 ---
 
 ## Objetivo del proyecto
@@ -138,7 +144,7 @@ FoodSystem/
         ├── GestorRestaurante.cpp
         ├── Clientes.cpp
         ├── Facturacion.cpp
-        ├── Estadistica.cpp
+        ├── Estadisticas.cpp
         └── Roles.cpp
 ```
 
@@ -176,7 +182,7 @@ src/Mesa.cpp \
 src/Pedido.cpp \
 src/Clientes.cpp \
 src/Facturacion.cpp \
-src/Estadistica.cpp \
+src/Estadisticas.cpp \
 src/Roles.cpp \
 -o main
 ```
